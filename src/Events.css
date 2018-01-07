@@ -1,0 +1,19 @@
+.event {
+    color: #556;
+    height: 170px;
+}
+
+.event:hover {
+    color: #fcc813;
+    cursor: pointer;
+}
+
+.event h3 {
+    color: inherit;
+}
+
+
+.fa-ticket {
+    color: #f00;
+    font-size: 12px;
+}

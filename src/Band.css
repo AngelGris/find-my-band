@@ -1,0 +1,16 @@
+.social-network {
+    margin: 0 10px;
+}
+
+.fa-youtube {
+    color: #fcc813;
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
+
+.fa-youtube:hover {
+    color: #23527c;
+    cursor: pointer;
+    -webkit-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}

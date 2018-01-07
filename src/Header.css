@@ -1,0 +1,15 @@
+#previous-searches {
+    height: 50px;
+    overflow: hidden;
+}
+
+.history {
+    cursor: pointer;
+    float: right;
+    margin-left: 10px;
+}
+
+.history img {
+    border-radius: 50%;
+    max-height: 45px;
+}

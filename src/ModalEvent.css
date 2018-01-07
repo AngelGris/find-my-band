@@ -1,0 +1,24 @@
+h2 {
+    font-size: 16px;
+    margin: 0;
+}
+
+h4 {
+    font-weight: bold;
+}
+
+ul {
+    font-size: 18px;
+    list-style: none;
+    padding: 0;
+}
+
+#map {
+    height: 250px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.no-padding {
+    padding: 0;
+}
