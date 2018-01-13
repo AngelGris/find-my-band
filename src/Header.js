@@ -12,7 +12,7 @@ const Header = (props) => {
                 <div className="megamenu">
                     <div className="row">
                         <Search performSearch={props.performSearch} />
-                        <History history={props.history} />
+                        <History history={props.history} loadHistory={props.loadHistory} />
                     </div>
                 </div>
             </header>
