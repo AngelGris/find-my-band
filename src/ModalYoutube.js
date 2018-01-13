@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Tooltip, OverlayTrigger } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 
 import './ModalYoutube.css'
 
@@ -91,6 +92,12 @@ class ModalYoutube extends Component {
             </Modal>
         )
     }
+}
+
+ModalYoutube.propTypes = {
+    band: PropTypes.object.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    showModal: PropTypes.bool.isRequired,
 }
 
 export default ModalYoutube

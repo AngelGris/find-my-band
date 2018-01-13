@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Moment from 'moment'
 
 import './Events.css';
@@ -93,12 +94,20 @@ class Events extends Component {
                             <h3>NO UPCOMING EVENTS</h3>
                         </div>}
                         {events.length > 0 && events.map(this.renderEvent)}
-                        <ModalEvent showModal={showEventModal} event={eventInModal} handleOpen={this.handleOpenModalEvent} handleClose={this.handleCloseModalEvent} />
+                        <ModalEvent showModal={showEventModal} event={eventInModal} handleClose={this.handleCloseModalEvent} />
                     </div>
                 </div>
             </section>
         )
     }
+}
+
+Events.propTypes = {
+    event: PropTypes.array,
+}
+
+Events.defaultProps = {
+    event: [],
 }
 
 export default Events

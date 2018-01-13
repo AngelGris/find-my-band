@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 import './Band.css'
 import ModalYoutube from './ModalYoutube'
@@ -52,6 +53,14 @@ class Band extends Component {
             </div>
         )
     }
+}
+
+Band.propTypes = {
+    band: PropTypes.object,
+}
+
+Band.defaultProps = {
+    band: {},
 }
 
 export default Band

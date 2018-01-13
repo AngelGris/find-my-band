@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Modal } from 'react-bootstrap'
 import Moment from 'moment'
 
@@ -48,6 +49,12 @@ class ModalEvent extends Component {
             </Modal>
         )
     }
+}
+
+ModalEvent.propTypes = {
+    event: PropTypes.object.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    showModal: PropTypes.bool.isRequired,
 }
 
 export default ModalEvent
