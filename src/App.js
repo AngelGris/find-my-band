@@ -26,9 +26,11 @@ class App extends Component {
         if (band.id !== undefined && this.isBandInHistory(band) === -1) {
             history.unshift(band)
             history = history.slice(0, 5)
-        }
 
-        return history
+            this.setState({
+                history: history
+            })
+        }
     }
 
     isBandInHistory(band) {
@@ -44,23 +46,19 @@ class App extends Component {
     }
 
     loadHistory(index) {
-        let history = this.state.history
-        const band = history[index]
+        const band = this.state.history[index]
 
-        history = this.addBandToHistory(this.state.band)
+        this.addBandToHistory(this.state.band)
 
         this.setState({
-            band: band,
-            history: history
+            band: band
         })
     }
 
     performSearch(query) {
-        console.log('inicio')
         this.props.api.searchBand(query, this.props.appId)
             .then(res => {
                 // If band found then update history, get events and videos
-                console.log('as')
                 if (res.data.id !== undefined) {
                     // Update search history
                     if (this.state.band.id !== res.data.id) {
@@ -71,20 +69,14 @@ class App extends Component {
                             history.splice(index, 1)
                         }
 
-                        history = this.addBandToHistory(this.state.band)
-
-                        this.setState({
-                            history: history
-                        })
+                        this.addBandToHistory(this.state.band)
                     }
 
                     res.data.events = []
                     res.data.videos = []
-                    console.log('good')
                     this.setState({
                         band: res.data
                     })
-                    console.log('band')
                     // Get events for the band
                     this.props.api.searchEvents(query, this.props.appId)
                         .then(res => {
@@ -105,7 +97,6 @@ class App extends Component {
                             })
                         })
                 }
-                console.log('fin')
             })
     }
 
@@ -115,8 +106,8 @@ class App extends Component {
                 <Header
                     band={this.state.band}
                     history={this.state.history}
-                    performSearch={(query) => this.performSearch(query)}
-                    loadHistory={(index) => this.loadHistory(index)}
+                    performSearch={this.performSearch}
+                    loadHistory={this.loadHistory}
                 />
                 <Body band={this.state.band} />
                 <Footer />
