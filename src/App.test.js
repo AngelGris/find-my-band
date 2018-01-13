@@ -13,6 +13,6 @@ describe('<App />', () => {
     })
     it('should have .container class', () => {
         const wrapper = shallow(<App />)
-        expect(wrapper.is('.container')).toBe(true)
+        expect(wrapper.is('.wrapper')).toBe(true)
     })
 })
