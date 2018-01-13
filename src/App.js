@@ -56,9 +56,11 @@ class App extends Component {
     }
 
     performSearch(query) {
-        this.props.api.get('artists/' + query + '/?app_id=' + this.props.appId)
+        console.log('inicio')
+        this.props.api.searchBand(query, this.props.appId)
             .then(res => {
                 // If band found then update history, get events and videos
+                console.log('as')
                 if (res.data.id !== undefined) {
                     // Update search history
                     if (this.state.band.id !== res.data.id) {
@@ -78,12 +80,13 @@ class App extends Component {
 
                     res.data.events = []
                     res.data.videos = []
+                    console.log('good')
                     this.setState({
                         band: res.data
                     })
-
+                    console.log('band')
                     // Get events for the band
-                    this.props.api.get('artists/' + query + '/events/?app_id=' + this.props.appId)
+                    this.props.api.searchEvents(query, this.props.appId)
                         .then(res => {
                             let { band } = this.state
                             band.events = res.data
@@ -93,7 +96,7 @@ class App extends Component {
                         })
 
                     // Get videos for the band
-                    this.props.api.get('https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoCategoryId=10&maxResults=20&q=' + encodeURI(res.data.name) + '&key=' + this.props.youtubeApiKey)
+                    this.props.api.searchVideos(res.data.name, this.props.youtubeApiKey)
                         .then(res => {
                             let { band } = this.state
                             band.videos = res.data.items
@@ -102,6 +105,7 @@ class App extends Component {
                             })
                         })
                 }
+                console.log('fin')
             })
     }
 
