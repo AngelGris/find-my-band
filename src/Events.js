@@ -103,11 +103,7 @@ class Events extends Component {
 }
 
 Events.propTypes = {
-    event: PropTypes.array,
-}
-
-Events.defaultProps = {
-    event: [],
+    events: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
 export default Events
