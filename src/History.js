@@ -38,10 +38,12 @@ class History extends Component {
 
 History.propTypes = {
     history: PropTypes.array,
+    loadHistory: PropTypes.func,
 }
 
 History.defaultProps = {
     history: [],
+    loadHistory: () => void(0),
 }
 
 export default History
