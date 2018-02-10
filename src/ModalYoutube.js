@@ -15,9 +15,6 @@ class ModalYoutube extends Component {
         }
 
         this.handleLoadVideo = this.handleLoadVideo.bind(this)
-        this.handleScrollLeft = this.handleScrollLeft.bind(this)
-        this.handleScrollRight = this.handleScrollRight.bind(this)
-        this.renderVideoThumb = this.renderVideoThumb.bind(this)
     }
 
     componentDidMount() {
@@ -38,17 +35,65 @@ class ModalYoutube extends Component {
         })
     }
 
+    render () {
+        const { showModal, band, handleClose } = this.props
+        const { listingLeft } = this.state
+
+        if (band.videos.length === 0) {
+            return null
+        }
+
+        return (
+            <Modal show={showModal} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{band.name}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body ref="modalBody">
+                    <iframe src={this.state.videoInPlayer} frameBorder="0" allowFullScreen title="YouTube player" ></iframe>
+                    <VideosThumbs videos={band.videos} onLoadVideo={this.handleLoadVideo} />
+                </Modal.Body>
+                <Modal.Footer>
+                </Modal.Footer>
+            </Modal>
+        )
+    }
+}
+
+ModalYoutube.propTypes = {
+    band: PropTypes.object.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    showModal: PropTypes.bool.isRequired,
+}
+
+export class VideosThumbs extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            left: 0
+        }
+
+        this.handleLoadVideo = this.handleLoadVideo.bind(this)
+        this.handleScrollLeft = this.handleScrollLeft.bind(this)
+        this.handleScrollRight = this.handleScrollRight.bind(this)
+        this.renderVideoThumb = this.renderVideoThumb.bind(this)
+    }
+
+    handleLoadVideo(videoId) {
+        this.props.onLoadVideo(videoId)
+    }
+
     handleScrollLeft() {
-        const left = this.state.listingLeft + this.refs.videosWrapper.offsetWidth
+        const left = this.state.left + this.refs.videosWrapper.offsetWidth
         this.setState({
-            listingLeft: Math.min(0, left)
+            left: Math.min(0, left)
         })
     }
 
     handleScrollRight() {
-        const left = this.state.listingLeft - this.refs.videosWrapper.offsetWidth
+        const left = this.state.left - this.refs.videosWrapper.offsetWidth
         this.setState({
-            listingLeft: Math.max(-(this.refs.videosListing.offsetWidth - this.refs.videosWrapper.offsetWidth), left)
+            left: Math.max(-(this.refs.videosListing.offsetWidth - this.refs.videosWrapper.offsetWidth), left)
         })
     }
 
@@ -65,39 +110,19 @@ class ModalYoutube extends Component {
     }
 
     render () {
-        const { showModal, band, handleClose } = this.props
-        const { listingLeft } = this.state
-
-        if (band.videos.length === 0) {
-            return null
-        }
+        const { videos } = this.props
+        const { left } = this.state
 
         return (
-            <Modal show={showModal} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{band.name}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body ref="modalBody">
-                    <iframe src={this.state.videoInPlayer} frameBorder="0" allowFullScreen title="YouTube player" ></iframe>
-                    <div id="videos-wrapper" ref="videosWrapper">
-                        <div id="videos-left" onClick={this.handleScrollLeft}><span className="fa fa-angle-left"></span></div>
-                        <div id="videos-listing" ref="videosListing" style={{left: listingLeft + 'px', width: (band.videos.length * 130) + "px"}}>
-                        {band.videos.map((video) => this.renderVideoThumb(video))}
-                        </div>
-                        <div id="videos-right" onClick={this.handleScrollRight}><span className="fa fa-angle-right"></span></div>
-                    </div>
-                </Modal.Body>
-                <Modal.Footer>
-                </Modal.Footer>
-            </Modal>
+            <div id="videos-wrapper" ref="videosWrapper">
+                <div id="videos-left" onClick={this.handleScrollLeft}><span className="fa fa-angle-left"></span></div>
+                <div id="videos-listing" ref="videosListing" style={{left: left + 'px', width: (videos.length * 130) + "px"}}>
+                {videos.map((video) => this.renderVideoThumb(video))}
+                </div>
+                <div id="videos-right" onClick={this.handleScrollRight}><span className="fa fa-angle-right"></span></div>
+            </div>
         )
     }
-}
-
-ModalYoutube.propTypes = {
-    band: PropTypes.object.isRequired,
-    handleClose: PropTypes.func.isRequired,
-    showModal: PropTypes.bool.isRequired,
 }
 
 export default ModalYoutube

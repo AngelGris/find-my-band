@@ -10,7 +10,6 @@
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.0",
-    "react-dom": "^16.2.0",
     "react-google-maps": "^9.4.5",
     "react-scripts": "1.0.17"
   },
@@ -23,6 +22,8 @@
   },
   "devDependencies": {
     "moxios": "^0.4.0",
+    "react-addons-test-utils": "^15.6.2",
+    "react-dom": "^16.2.0",
     "sinon": "^4.1.5"
   }
 }

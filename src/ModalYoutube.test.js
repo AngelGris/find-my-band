@@ -1,7 +1,7 @@
 import React from 'react'
-import ModalYoutube from './ModalYoutube'
+import ModalYoutube, { VideosThumbs } from './ModalYoutube'
 
-import Enzyme, { shallow } from 'enzyme'
+import Enzyme, { shallow, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 Enzyme.configure({ adapter: new Adapter() })
@@ -66,9 +66,8 @@ describe('<ModalYoutube />', () => {
         })
     })
 
-    describe('render with videos', () => {
+    describe('renders with videos', () => {
         const wrapper = shallow(<ModalYoutube band={band} handleClose={handleClose} showModal={false} />)
-
         it('renders without crushing', () => {
             expect(wrapper.length).toBe(1)
         })
@@ -77,13 +76,27 @@ describe('<ModalYoutube />', () => {
             expect(wrapper.find('Modal').length).toBe(1)
         })
 
-        it('renders all thumbnails', () => {
-            expect(wrapper.find('.videos-play').length).toBe(band.videos.length)
-        })
+        describe('renders thumbanils', () => {
+            const wrapper = mount(<ModalYoutube band={band} handleClose={handleClose} showModal={true} />)
+            it('renders all thumbnails', () => {
+                expect(wrapper.find('.videos-play').length).toBe(band.videos.length)
+            })
 
-        it('loads new video', () => {
-            wrapper.find('.videos-play').at(2).simulate('click')
-            expect(wrapper.instance().state.videoInPlayer).toBe('https://www.youtube.com/embed/' + band.videos[2].id.videoId + '?autoplay=true&enablejsapi=1&rel=0')
+            it('loads new video', () => {
+                wrapper.find('.videos-play').at(2).simulate('click')
+                expect(wrapper.instance().state.videoInPlayer).toBe('https://www.youtube.com/embed/' + band.videos[2].id.videoId + '?autoplay=true&enablejsapi=1&rel=0')
+            })
+        })
+    })
+
+    describe('scrolls thumbnails', () => {
+        it('scrolls left and right', () => {
+            const wrapper = mount(<VideosThumbs videos={band.videos} onLoadVideo={jest.fn()} />, document.body)
+
+            expect(wrapper.state().left).toBe(0)
+            wrapper.find('#videos-right').simulate('click')
+            wrapper.find('#videos-left').simulate('click')
+            expect(wrapper.state().left).toBe(0)
         })
     })
 })
