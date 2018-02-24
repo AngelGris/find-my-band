@@ -56,48 +56,45 @@ class App extends Component {
     }
 
     performSearch(query) {
-        this.props.api.searchBand(query, this.props.appId)
-            .then(res => {
-                // If band found then update history, get events and videos
-                if (res.data.id !== undefined) {
-                    // Update search history
-                    if (this.state.band.id !== res.data.id) {
-                        let index = this.isBandInHistory(res.data)
-                        let history = this.state.history
+        this.props.api.searchBand(query, this.props.appId, res => {
+            // If band found then update history, get events and videos
+            if (res.id !== undefined) {
+                // Update search history
+                if (this.state.band.id !== res.id) {
+                    let index = this.isBandInHistory(res)
+                    let history = this.state.history
 
-                        if (index > -1) {
-                            history.splice(index, 1)
-                        }
-
-                        this.addBandToHistory(this.state.band)
+                    if (index > -1) {
+                        history.splice(index, 1)
                     }
 
-                    res.data.events = []
-                    res.data.videos = []
-                    this.setState({
-                        band: res.data
-                    })
-                    // Get events for the band
-                    this.props.api.searchEvents(query, this.props.appId)
-                        .then(res => {
-                            let { band } = this.state
-                            band.events = res.data
-                            this.setState({
-                                band: band
-                            })
-                        })
-
-                    // Get videos for the band
-                    this.props.api.searchVideos(res.data.name, this.props.youtubeApiKey)
-                        .then(res => {
-                            let { band } = this.state
-                            band.videos = res.data.items
-                            this.setState({
-                                band: band
-                            })
-                        })
+                    this.addBandToHistory(this.state.band)
                 }
-            })
+
+                res.events = []
+                res.videos = []
+                this.setState({
+                    band: res
+                })
+                // Get events for the band
+                this.props.api.searchEvents(query, this.props.appId, res => {
+                    let { band } = this.state
+                    band.events = res
+                    this.setState({
+                        band: band
+                    })
+                })
+
+                // Get videos for the band
+                this.props.api.searchVideos(res.name, this.props.youtubeApiKey, res => {
+                    let { band } = this.state
+                    band.videos = res.items
+                    this.setState({
+                        band: band
+                    })
+                })
+            }
+        })
     }
 
     render() {
