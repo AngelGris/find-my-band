@@ -10,7 +10,6 @@ class ModalYoutube extends Component {
 
         this.state = {
             videoInPlayer: '',
-            listingLeft: 0,
             tooltipContainer: this
         }
 
@@ -37,7 +36,6 @@ class ModalYoutube extends Component {
 
     render () {
         const { showModal, band, handleClose } = this.props
-        const { listingLeft } = this.state
 
         if (band.videos.length === 0) {
             return null
