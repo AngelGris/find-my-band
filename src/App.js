@@ -56,7 +56,7 @@ class App extends Component {
     }
 
     performSearch(query) {
-        this.props.api.searchBand(query, this.props.appId, res => {
+        this.props.api.searchBand(query, this.props.appId, (res) => {
             // If band found then update history, get events and videos
             if (res.id !== undefined) {
                 // Update search history

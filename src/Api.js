@@ -3,6 +3,7 @@ import axios from 'axios'
 const api = axios.create({
     baseURL: 'https://rest.bandsintown.com/'
 })
+
 const apis = {
     api: api,
     searchBand: (query, appId, callback) => api.get('artists/' + query + '/?app_id=' + appId)
