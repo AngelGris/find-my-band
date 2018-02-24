@@ -9,3 +9,6 @@ Also [Google Maps API](http://maps.google.com) is used to load a map with the ev
 - **[Moment](https://www.npmjs.com/package/react-moment)**: date library
 - **[React-Bootstrap](https://react-bootstrap.github.io/)**: Bootstrap's components.
 - **[React-Google-Maps](https://github.com/tomchentw/react-google-maps)**: Google Maps integration
+
+## Live Demo
+http://35.163.165.1:4000/
