@@ -1,9 +1,17 @@
 import React, { Component } from 'react'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
 
-//import styles from './styles.css'
 import Header from './Header'
 import Body from './Body'
 import Footer from './Footer'
+import reducer from './reducers/index'
+
+let store = createStore(
+    reducer,
+    applyMiddleware(thunk)
+)
 
 class App extends Component {
     constructor(props) {
@@ -99,16 +107,13 @@ class App extends Component {
 
     render() {
         return (
-            <div className="wrapper">
-                <Header
-                    band={this.state.band}
-                    history={this.state.history}
-                    performSearch={this.performSearch}
-                    loadHistory={this.loadHistory}
-                />
-                <Body band={this.state.band} />
-                <Footer />
-            </div>
+            <Provider store={store}>
+                <div className="wrapper">
+                    <Header />
+                    <Body />
+                    <Footer />
+                </div>
+            </Provider>
         )
     }
 }

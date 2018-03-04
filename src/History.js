@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { Tooltip, OverlayTrigger } from 'react-bootstrap'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
+import { loadHistory } from './actions'
 
 class History extends Component {
     constructor(props) {
@@ -46,4 +49,16 @@ History.defaultProps = {
     loadHistory: () => void(0),
 }
 
-export default History
+const mapStateToProps = (state) => {
+    return {
+        history: state.band.history
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadHistory: (index) => dispatch(loadHistory(index))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(History)

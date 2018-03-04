@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'moment'
+import { connect } from 'react-redux'
 
 import './Events.css';
 import ModalEvent from './ModalEvent'
@@ -80,6 +81,10 @@ class Events extends Component {
         const { events } = this.props
         const { eventInModal, showEventModal } = this.state
 
+        if (events.length === 0) {
+            return null
+        }
+
         return (
             <section className="section-bg section-gray section-large">
                 <div className="container">
@@ -106,4 +111,10 @@ Events.propTypes = {
     events: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
 
-export default Events
+const mapStateToProps = (state) => {
+    return {
+        events: state.events.events
+    }
+}
+
+export default connect(mapStateToProps)(Events)

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Tooltip, OverlayTrigger } from 'react-bootstrap'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import './ModalYoutube.css'
 
@@ -23,9 +24,11 @@ class ModalYoutube extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.setState({
-            videoInPlayer: 'https://www.youtube.com/embed/' + nextProps.band.videos[0].id.videoId + '?enablejsapi=1&rel=01'
-        })
+        if (nextProps.videos.length > 0) {
+            this.setState({
+                videoInPlayer: 'https://www.youtube.com/embed/' + nextProps.videos[0].id.videoId + '?enablejsapi=1&rel=01'
+            })
+        }
     }
 
     handleLoadVideo(videoId) {
@@ -35,9 +38,9 @@ class ModalYoutube extends Component {
     }
 
     render () {
-        const { showModal, band, handleClose } = this.props
+        const { showModal, band, videos, handleClose } = this.props
 
-        if (band.videos.length === 0) {
+        if (videos.length === 0) {
             return null
         }
 
@@ -48,7 +51,7 @@ class ModalYoutube extends Component {
                 </Modal.Header>
                 <Modal.Body ref="modalBody">
                     <iframe src={this.state.videoInPlayer} frameBorder="0" allowFullScreen title="YouTube player" ></iframe>
-                    <VideosThumbs videos={band.videos} onLoadVideo={this.handleLoadVideo} />
+                    <VideosThumbs videos={videos} onLoadVideo={this.handleLoadVideo} />
                 </Modal.Body>
                 <Modal.Footer>
                 </Modal.Footer>
@@ -58,7 +61,6 @@ class ModalYoutube extends Component {
 }
 
 ModalYoutube.propTypes = {
-    band: PropTypes.object.isRequired,
     handleClose: PropTypes.func.isRequired,
     showModal: PropTypes.bool.isRequired,
 }
@@ -123,4 +125,11 @@ export class VideosThumbs extends Component {
     }
 }
 
-export default ModalYoutube
+const mapStateToProps = (state) => {
+    return {
+        band: state.band.band,
+        videos: state.videos.videos
+    }
+}
+
+export default connect(mapStateToProps)(ModalYoutube)

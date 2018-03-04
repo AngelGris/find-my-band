@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 import './Band.css'
 import ModalYoutube from './ModalYoutube'
+import { loadEvents, loadVideos, updateHistory } from './actions'
 
 class Band extends Component {
     constructor(props) {
@@ -14,6 +16,13 @@ class Band extends Component {
 
         this.handleOpenModalYoutube = this.handleOpenModalYoutube.bind(this)
         this.handleCloseModalYoutube = this.handleCloseModalYoutube.bind(this)
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.band.id !== nextProps.band.id) {
+            this.props.loadEvents(nextProps.band.name)
+            this.props.loadVideos(nextProps.band.name)
+        }
     }
 
     handleOpenModalYoutube() {
@@ -29,7 +38,7 @@ class Band extends Component {
     }
 
     render() {
-        const { band } = this.props
+        const { band, videos } = this.props
         const { showYoutubeModal } = this.state
 
         if (band.id === undefined) {
@@ -47,9 +56,9 @@ class Band extends Component {
                 <h2 className="title-slider large uppercased mb40 word-wrap">{band.name}</h2>
                 <h3>
                     {band.facebook_page_url !== '' && <a href={band.facebook_page_url} target="_blank"><span className="fa fa-facebook-square social-network"></span></a>}
-                    {band.videos.length > 0 && <span className="fa fa-youtube social-network" onClick={this.handleOpenModalYoutube}></span>}
+                    {videos.length > 0 && <span className="fa fa-youtube social-network" onClick={this.handleOpenModalYoutube}></span>}
                 </h3>
-                {band.videos.length > 0 && <ModalYoutube showModal={showYoutubeModal} band={band} handleClose={this.handleCloseModalYoutube} />}
+                <ModalYoutube showModal={showYoutubeModal} handleClose={this.handleCloseModalYoutube} />
             </div>
         )
     }
@@ -63,4 +72,19 @@ Band.defaultProps = {
     band: {},
 }
 
-export default Band
+const mapStateToProps = (state) => {
+    return {
+        band: state.band.band,
+        videos: state.videos.videos
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadEvents: (query) => dispatch(loadEvents(query)),
+        loadVideos: (query) => dispatch(loadVideos(query)),
+        updateHistory: (band) => dispatch(updateHistory(band))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Band)

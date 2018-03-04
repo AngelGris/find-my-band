@@ -1,33 +1,33 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { Alert } from 'react-bootstrap'
+import { connect } from 'react-redux'
 
 import Band from './Band'
 import Events from './Events'
+import './Body.css'
 
 const Body = (props) => {
     return (
         <div>
             <section className="section-larger bg-img bg53 stellar" data-stellar-background-ratio="0.4">
-                <div className="intro-with-transparent-menu"></div>
+                {props.error  && <Alert bsStyle="danger"><label>{props.error}</label></Alert>}
                 <div className="bg-overlay gradient-1"></div>
                 <div className="container">
                     <div className="row mt50 mb50">
-                        <Band band={props.band} />
+                        <Band />
                     </div>
                 </div>
             </section>
             <div className="shadow3"></div>
-            {props.band.id !== undefined && <Events events={props.band.events} />}
+            <Events />
         </div>
     )
 }
 
-Body.propTypes = {
-    band: PropTypes.object,
+const mapStateToProps = (state) => {
+    return {
+        error: state.band.error
+    }
 }
 
-Body.defaultProps = {
-    band: {},
-}
-
-export default Body
+export default connect(mapStateToProps)(Body)

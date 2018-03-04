@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
+import { performSearch } from './actions'
 
 class Search extends Component {
     constructor(props) {
@@ -43,4 +46,14 @@ Search.propTypes = {
     performSearch: PropTypes.func.isRequired,
 }
 
-export default Search
+const mapStateToProps = (state) => {
+    return {}
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        performSearch: (query) => dispatch(performSearch(query))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search)
